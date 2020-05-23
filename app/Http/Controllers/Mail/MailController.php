@@ -14,20 +14,46 @@ class MailController extends Controller
 {
     private $mailService;
 
+    /**
+     * MailController constructor.
+     * @param MailService $mailService
+     */
     function __construct(MailService $mailService)
     {
         $this->mailService = $mailService;
     }
 
-    public function createNewsletterSchedule(Request $request){
-        $validation = Validator::make($request->all(), [
+    /**
+     * @param $data
+     * @throws \Exception
+     */
+    public function validateData($data){
+        $validation = Validator::make($data, [
             'message' => 'required|string',
             'fire_at' => 'required|date|after:now'
         ]);
-        if($validation->fails()){return $validation->errors();}
-        $fireAt = Carbon::createFromDate($request->fire_at);
 
-        $this->mailService->createNewsletterSchedule($request->message, $fireAt);
+        if($validation->fails()){throw new \Exception($validation->errors()->first());}
+    }
+
+    /**
+     * @param Request $request
+     * @return string
+     * @throws \Exception
+     */
+    public function postCreateNewsletterSchedule(Request $request){
+        return $this->createNewsletterSchedule($request->all());
+    }
+
+    public function createNewsletterSchedule($data){
+        try {
+            $this->validateData($data);
+        } Catch (\Exception $ex){
+            return $ex->getMessage();
+        }
+        $fireAt = Carbon::createFromDate($data['fire_at']);
+
+        $this->mailService->createNewsletterSchedule($data['message'], $fireAt);
 
         return 'success';
     }

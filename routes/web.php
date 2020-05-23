@@ -16,4 +16,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('create-newsletter-schedule', 'Mail\MailController@createNewsletterSchedule');
+Route::post('create-newsletter-schedule', 'Mail\MailController@postCreateNewsletterSchedule');
