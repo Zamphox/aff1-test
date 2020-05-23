@@ -7,6 +7,9 @@ I didnt seed a lot of users since I don't think it would really be
  I will add myself in there just so its not empty, and real emails
   would be ones that have agrees_to_newsletter as true, so when you add yours (manually)
    make sure you have that checked.
+   
+The functionality can be initiated by addressing the endpoint
+ or via console command (e.g php artisan send-newsletters "2020-05-23 14:25:00" "Test newsletter")
  
  
  Successful example in local environment with using real smtp provider:
